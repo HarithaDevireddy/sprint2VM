@@ -1,8 +1,12 @@
 package com.cg.vmtoolapi.domain;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
-
 
 
 @Entity
@@ -38,8 +40,8 @@ public class Customer {
 	@Column(nullable=false,unique=true,length=10)
 	private String mobileNumber;
 	
-	
-    private String address;
+	@ElementCollection
+    private List<Address> address=new ArrayList<Address>();
     
  
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,optional = false)
@@ -83,12 +85,13 @@ public class Customer {
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
-	public String getAddress() {
+	public List<Address> getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(List<Address> address) {
 		this.address = address;
 	}
+	
 	
 
 }
