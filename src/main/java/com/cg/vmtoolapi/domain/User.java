@@ -1,30 +1,38 @@
 package com.cg.vmtoolapi.domain;
 
-import javax.annotation.Generated;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "credentials")//in pgadmin user table name gives problem
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int userId;
-	private String emailId; 
+	@Column(name = "user_id")
+    @NotBlank(message="User Id required")
+	private String userId;
+
+	@NotBlank(message = "Password Cannot Be Null")
 	private String password;
-	private String role="customer";
+	private String role ;
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="customer_id", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY,
+            mappedBy = "user")
 	@JsonIgnore
-	private Customer customer;
-	
+    private Customer customer;
+
+
+	public User() {
+
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -33,35 +41,30 @@ public class User {
 		this.customer = customer;
 	}
 
-	public User() {
-		
-	}
 	
-	public int getUserId() {
+
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+
 	public String getRole() {
 		return role;
 	}
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 }

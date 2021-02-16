@@ -1,5 +1,6 @@
 package com.cg.vmtoolapi.domain;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,43 +8,44 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 
 
+
 @Entity
+@Table(name = "customer")
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long customerId;
-	@NotBlank(message="first name required")
 	
+	@NotBlank(message="First name required")
 	private String firstname;
 	
-	@NotBlank(message="last name required")
+	@NotBlank(message="Last name required")
 	private String lastname;
 	
-	@NotBlank(message="emailId required")
-	
+	@NotBlank(message="Email-Id required")
 	@Column(unique = true)
 	private String emailId;
 	
-	@NotBlank(message="password required")
-	private String password;
 	
-	@NotBlank(message="mobile number required")
+	@NotBlank(message="Mobile number required")
 	@Column(nullable=false,unique=true,length=10)
 	private String mobileNumber;
 	
 	
     private String address;
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "customer" )
+    
+ 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL,optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
   
-    
-	
 	public User getUser() {
 		return user;
 	}
@@ -74,12 +76,7 @@ public class Customer {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
 	public String getMobileNumber() {
 		return mobileNumber;
 	}

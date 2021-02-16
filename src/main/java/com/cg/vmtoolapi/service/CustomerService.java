@@ -15,15 +15,28 @@ public class CustomerService {
 	
 	public Customer saveorUpdateCustomer(Customer customer) {
 		
-		if(customer.getCustomerId()==null) {
-			User user=new User();
-		    customer.setUser(user);
-		    user.setCustomer(customer);
-		    user.setEmailId(customer.getEmailId());
-		    user.setPassword(customer.getPassword());
+		if(customer.getCustomerId()!=null)
+		{
+			Customer savedCustomer = customerRepository.findByCustomerId(customer.getCustomerId());
+			savedCustomer = customer;
+			return customerRepository.save(customer);
 			
 		}
+		
 		return customerRepository.save(customer);
+	}
+	
+	public void removeCustomer(Customer customer)
+	{
+		customerRepository.delete(customer);
+		
+	}
+	
+	public void removeCustomerById(Long cust_id)
+	{
+	
+		customerRepository.deleteById(cust_id);
+		
 	}
 
 }
